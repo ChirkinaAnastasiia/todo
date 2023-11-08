@@ -130,7 +130,7 @@ const createModal = () => {
   modalForm.insertAdjacentHTML('beforeend', `
     <h4 class="modal-title mb-3"> Приветствую в ToDo App!</h4>
 
-    <label class="form-group mb-4">
+    <label class="form-group mb-4 d-block">
       <input class="form-control modal-input"
         name="name" type="text" placeholder="Введите ваше имя">
     </label>
