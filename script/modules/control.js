@@ -140,7 +140,7 @@ const modalControl = (modalOverlay, modalForm) => {
     }
   });
 
-  document.addEventListener('keydown', e => {
+  modalForm.addEventListener('keydown', e => {
     if (e.key === 'Enter' && modalInput.value.length > 0 &&
         modalInput.value.trim()) {
       closeModal();
