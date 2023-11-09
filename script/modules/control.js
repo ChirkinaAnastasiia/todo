@@ -4,6 +4,7 @@ import {
   addTaskData,
   removeTaskData,
   editTaskData,
+  editTaskStatus,
 } from './serviceStorage.js';
 
 
@@ -53,9 +54,7 @@ const formControl = (list, form, key) => {
     const formData = new FormData(e.target);
     const newTask = Object.fromEntries(formData);
     newTask.id = Math.random().toString().substring(2, 10);
-
-
-    console.log(newTask);
+    newTask.status = 'in process';
 
     addTasks(newTask, list);
     addTaskData(newTask, key);
@@ -64,7 +63,7 @@ const formControl = (list, form, key) => {
   });
 };
 
-const taskCompleteControl = (list) => {
+const taskCompleteControl = (list, key) => {
   list.addEventListener('click', e => {
     const target = e.target;
     if (target.closest('.btn-success')) {
@@ -75,6 +74,8 @@ const taskCompleteControl = (list) => {
       tr.className = 'table-success';
       tr.cells[1].classList.add('text-decoration-line-through');
       tr.cells[2].textContent = 'Выполнена';
+
+      editTaskStatus(tr.dataset.id, key);
     }
   });
 };

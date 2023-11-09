@@ -76,19 +76,10 @@ const createTable = () => {
   };
 };
 
-const createRow = ({task, id, priority}) => {
+const createRow = ({task, id, priority, status}) => {
   const tr = document.createElement('tr');
   tr.classList.add('table-light');
   tr.dataset.id = id;
-
-  if (priority === 'warning') {
-    tr.className = 'table-warning';
-  }
-  if (priority === 'danger') {
-    tr.className = 'table-danger';
-  }
-
-  console.log(tr);
 
   const tdNumber = document.createElement('td');
   tdNumber.classList.add('table-number');
@@ -103,19 +94,37 @@ const createRow = ({task, id, priority}) => {
 
   const tdButtons = document.createElement('td');
   tdButtons.classList.add('table-buttons');
-  tdButtons.insertAdjacentHTML('beforeend', `
-    <button class="btn btn-danger" type="button">
-      Удалить
-    </button>
-    <button class="btn btn-success" type="button">
-      Завершить
-    </button>
-    <button class="btn btn-secondary" type="button">
-      Редактировать
-    </button>
-  `);
 
+  const deleteBtn = document.createElement('button');
+  deleteBtn.classList.add('btn', 'btn-danger', 'me-2');
+  deleteBtn.innerText = 'Удалить';
+
+  const completeBtn = document.createElement('button');
+  completeBtn.classList.add('btn', 'btn-success', 'me-2');
+  completeBtn.innerText = 'Завершить';
+
+  const editBtn = document.createElement('button');
+  editBtn.classList.add('btn', 'btn-secondary');
+  editBtn.innerText = 'Редактировать';
+
+  tdButtons.append(deleteBtn, completeBtn, editBtn);
   tr.append(tdNumber, tdTask, tdStatus, tdButtons);
+
+  if (priority === 'warning') {
+    tr.className = 'table-warning';
+  }
+
+  if (priority === 'danger') {
+    tr.className = 'table-danger';
+  }
+
+  if (status === 'complete') {
+    completeBtn.disabled = true;
+    editBtn.disabled = true;
+    tr.className = 'table-success';
+    tr.cells[1].classList.add('text-decoration-line-through');
+    tr.cells[2].textContent = 'Выполнена';
+  }
 
   return tr;
 };

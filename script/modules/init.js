@@ -18,7 +18,7 @@ const init = (key) => {
   formResetControl(form);
   formControl(list, form, key);
 
-  taskCompleteControl(list);
+  taskCompleteControl(list, key);
   taskDeleteControl(list, key);
   taskEditControl(list, key);
 };
