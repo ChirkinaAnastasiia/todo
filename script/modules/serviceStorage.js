@@ -29,13 +29,13 @@ const editTaskData = (id, task, key) => {
   localStorage.setItem(key, JSON.stringify(newData));
 };
 
-const editTaskStatus = (id, key) => {
+const editTaskStatus = (id, status, key) => {
   const data = getTaskData(key);
   const newData = data.map(item => (
     item.id === id ?
     {
       ...item,
-      status: 'complete',
+      status,
     } : item
   ));
 

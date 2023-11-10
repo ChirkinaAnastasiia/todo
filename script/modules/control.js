@@ -66,16 +66,34 @@ const formControl = (list, form, key) => {
 const taskCompleteControl = (list, key) => {
   list.addEventListener('click', e => {
     const target = e.target;
+
     if (target.closest('.btn-success')) {
-      target.disabled = true;
       target.nextElementSibling.disabled = true;
+      target.classList.remove('btn-success');
+      target.classList.add('btn-outline-success');
+      target.innerText = 'Возобновить';
 
       const tr = target.closest('tr');
       tr.className = 'table-success';
       tr.cells[1].classList.add('text-decoration-line-through');
       tr.cells[2].textContent = 'Выполнена';
+      tr.dataset.status = 'complete';
 
-      editTaskStatus(tr.dataset.id, key);
+      editTaskStatus(tr.dataset.id, tr.dataset.status, key);
+    } else if (target.closest('.btn-outline-success')) {
+      target.nextElementSibling.disabled = false;
+      target.classList.remove('btn-outline-success');
+      target.classList.add('btn-success');
+      target.innerText = 'Завершить';
+
+
+      const tr = target.closest('tr');
+      tr.classList.remove('table-success');
+      tr.cells[1].classList.remove('text-decoration-line-through');
+      tr.cells[2].textContent = 'В процессе';
+      tr.dataset.status = 'in process';
+
+      editTaskStatus(tr.dataset.id, tr.dataset.status, key);
     }
   });
 };
@@ -100,21 +118,25 @@ const taskDeleteControl = (list, key) => {
 const taskEditControl = (list, key) => {
   list.addEventListener('click', e => {
     const target = e.target;
-    if (target.closest('.btn-secondary')) {
-      const tr = target.closest('tr');
 
+    if (target.closest('.btn-secondary')) {
+      target.classList.remove('btn-secondary');
+      target.classList.add('btn-outline-secondary');
+      target.innerText = 'Сохранить';
+
+      const tr = target.closest('tr');
       tr.cells[1].setAttribute('contenteditable', 'true');
       tr.cells[1].focus();
-    }
-  });
+    } else if (target.closest('.btn-outline-secondary')) {
+      target.classList.remove('btn-outline-secondary');
+      target.classList.add('btn-secondary');
+      target.innerText = 'Редактировать';
 
-  list.addEventListener('focusout', e => {
-    const target = e.target;
-    if (target.getAttribute('contenteditable')) {
       const tr = target.closest('tr');
-
-      target.setAttribute('contenteditable', 'false');
-      editTaskData(tr.dataset.id, target.textContent, key);
+      if (tr.cells[1].getAttribute('contenteditable')) {
+        tr.cells[1].setAttribute('contenteditable', 'false');
+        editTaskData(tr.dataset.id, tr.cells[1].textContent, key);
+      }
     }
   });
 };

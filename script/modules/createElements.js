@@ -80,6 +80,7 @@ const createRow = ({task, id, priority, status}) => {
   const tr = document.createElement('tr');
   tr.classList.add('table-light');
   tr.dataset.id = id;
+  tr.dataset.status = status;
 
   const tdNumber = document.createElement('td');
   tdNumber.classList.add('table-number');
@@ -119,7 +120,9 @@ const createRow = ({task, id, priority, status}) => {
   }
 
   if (status === 'complete') {
-    completeBtn.disabled = true;
+    completeBtn.innerText = 'Возобновить';
+    completeBtn.classList.remove('btn-success');
+    completeBtn.classList.add('btn-outline-success');
     editBtn.disabled = true;
     tr.className = 'table-success';
     tr.cells[1].classList.add('text-decoration-line-through');
